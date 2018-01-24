@@ -1,0 +1,59 @@
+{% extends 'layout.html.twig' %}
+
+{% block header_title %}
+{% if (product != null) and (product.status == 1)  %}
+    Fiche produit {{product.product.product_name}}
+    {% endif %}
+{% endblock %}
+
+{% block contents %}
+<div class="row">
+    {% if (product != null) and (product.status == 1)  %}
+    <div class="col-m-4">
+    <img src={{product.product.image_url}} />
+    </div>
+    <div class="col-m-8">
+        <h3>{{product.product.product_name}}</h3>
+        <h4>Code barre {{product.code}}</h4>
+        <hr/>
+        <p>
+            {% if product[2].averageProd is defined and product[2].averageProd != null %}
+                <b>Note :</b>{{product[2].averageProd|round(2, 'ceil')}}/5<br/>
+            {% endif %}
+            
+            <b>Quantité:</b>{{product.product.quantity}}<br/>
+        </p>
+        <p>
+            <b>Ingrédients :</b>
+            <ul>
+                {% set res = product.product.ingredients_text|split(',') %}
+                {% for item in res %}
+                    <li>{{item|replace({'_': ''})}}</li>
+                {% endfor %}
+                
+            </ul>
+        </p>
+        <p><b>Nombre de consultations : </b>{{product[0].nbView}}</p>
+        {% if is_granted('IS_AUTHENTICATED_FULLY') and form is defined %}
+            <form method="post" action="{{ path('evaluation', {'code_barre' : product.code}) }}">
+                {{ form_widget(form) }}
+                    <input type="submit" class="btn btn-primary" value="Envoyer!">
+                {{ form_end(form) }}
+            </form>
+        {% endif %}
+        {% if product[1].allProd is defined and product[1].allProd != null %}
+            {% for prod in product[1].allProd %}
+                <b>Commentaires et Notes :</b>
+                <ul>
+                    <li>Utilisateur : {{prod.user}} <br> Note : {{prod.rate}}/5 <br> Commentaire : {{prod.comment}}</li>
+                </ul>
+            {% endfor %}
+        {% endif %}
+    </div>
+    {% else %}
+        <div class="alert alert-danger">
+            Aucun produit trouvé pour le code barre {{product.code}}!
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
