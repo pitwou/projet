@@ -1,3 +1,17 @@
+Projet fait dans le cadre de la licence professionnelle DAWIN avec Symfony.
+Ce site permet de retouver un article grâce à son code barre. La page principale permet de voir les produits les mieux notés et les derniers produits consultés. Les personnes connectées au site ont la possibilité de laisser un commentaire et de mettre une note.
+
+Le site est visible uniquement en local, il n'est sur aucun serveur.
+
+Liens utiles :
+- Lien de l'énoncé : http://gregwar.com/php/tds/td_dawin.html
+- Lien de l'API pour ajouter des produits : https://fr.openfoodfacts.org/
+
+Commandes d'installation : 
+- Installation composer : composer install
+- Création de la base de données : php bin/console doctrine:schema:create
+- Lancement du serveur : php bin/console server:run
+
 Symfony Standard Edition
 ========================
 
